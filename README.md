@@ -12,7 +12,9 @@ OpenGL, DirectX와 같이 그래픽 모듈은 선행할게 많음. 현재 cpp의
 
 ## 프로젝트 내용.
 Consts.h -> 프로젝트에서 공용으로 사용되는 공통 변수들을 저장(BOARD_SIZE, Img_path등..)
+
 board.h & board.cpp -> match three puzzle을 플레이하는 보드에 필요한 함수들을 구성 ( 보드 구성, remove Item 등...)
+
 main.cpp -> main.cpp 
 
 ## 주요 코드 설명
