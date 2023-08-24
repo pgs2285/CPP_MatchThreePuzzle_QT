@@ -17,6 +17,8 @@ board.h & board.cpp -> match three puzzle을 플레이하는 보드에 필요한
 
 main.cpp -> main.cpp 
 
+Item.h & Item.cpp -> QGraphicsPixmapItem을 상속받아 내부 아이템 요소들의 변수를 따로 제작해줌. (모든 item들이 MouseEvent를 상속받기 위해)
+
 ## 주요 코드 설명
 완성 후 기술
 
