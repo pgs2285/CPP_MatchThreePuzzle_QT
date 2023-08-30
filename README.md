@@ -20,6 +20,10 @@ main.cpp -> main.cpp
 Item.h & Item.cpp -> QGraphicsPixmapItem을 상속받아 내부 아이템 요소들의 변수를 따로 제작해줌. (모든 item들이 MouseEvent를 상속받기 위해)
 -> mousePressEvent, mouseReleaseEvent 를 override해서 구현. qDebug
 
+## 배운점
+EventListener* _listener; 에서 생성자에서 초기화 후 사용하려 할때, 실수로 초기화를 안했던 문제가 있었다.
+이 이후코드에서는 빈 메모리에 접근하여 강제종료를 일으켰고 강제종료된 프로그램이 안사라져 곤란했었다... 메모리 사용은 항상 조심하자.
+
 ## 주요 코드 설명
 완성 후 기술
 

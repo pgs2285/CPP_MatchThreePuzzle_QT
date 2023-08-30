@@ -4,12 +4,12 @@
 #include <vector>
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <QtWidgets/QGraphicsScene>
-#include "random"
 #include <QtWidgets/QGraphicsRectItem>      // Item을 묶기위함.
+#include "random"
+#include "item.h"
 
-class Item;
 
-class Board
+class Board : public Item::EventListener
 {
     private:
     QGraphicsScene* _scene;
@@ -26,6 +26,9 @@ class Board
         ~Board();
         void addItem(int row, int column);
         void removeItem(int row, int column);
+        virtual void itemDragEvent(Item* item, Item::Direction dir) override;
+        void exchangeItems(int row0, int row1, int column0, int column1);
+        void moveItem(Item* item, int row, int column);
 };
 
 #endif // BOARD_H
