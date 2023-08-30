@@ -46,31 +46,31 @@ MatchSet = std::set<std::pair<int,int>> 이다
 
 MatchSet Board::matchedItems() const
 {
-MatchSet matched; //3개이상 뭉치는것들이 들어갈것
-for (int row = 0; row < \_items.size(); ++row) // 9\*9 기준으로 \_items.size()는 9이다. (햇갈리지 말자)
-{
-for(int column = 0; column < \_items[row].size(); ++column)
-{
-MatchSet m = matchedItems(row, column);
-if(m.size() >= 3)
-{
-matched.insert(m.begin(), m.end());
-}
-}
-}
-return matched;
+    MatchSet matched; //3개이상 뭉치는것들이 들어갈것
+    for (int row = 0; row < \_items.size(); ++row) // 9\*9 기준으로 \_items.size()는 9이다. (햇갈리지 말자)
+    {
+        for(int column = 0; column < \_items[row].size(); ++column)
+        {
+            MatchSet m = matchedItems(row, column);
+            if(m.size() >= 3)
+            {
+            matched.insert(m.begin(), m.end());
+            }
+        }
+    }
+    return matched;
 }
 
 ```
 
-##### overloading 개념으로 row, column이 넘어왔을때 검사하기 위함.
+##### overloading으로 row, column이 넘어왔을때 검사하기 위함.
 
 ```
 
 MatchSet Board::matchedItems(int row, int column) const
 {
-MatchSet horizontalMatched = matchedItemHorizontal(row, column);
-MatchSet verticalMatched = matchedItemVertical(row, column);
+    MatchSet horizontalMatched = matchedItemHorizontal(row, column);
+    MatchSet verticalMatched = matchedItemVertical(row, column);
 
     MatchSet matched;
     if(horizontalMatched.size() >= 3)
@@ -91,8 +91,8 @@ MatchSet verticalMatched = matchedItemVertical(row, column);
 ```
 MatchSet Board::matchedItemHorizontal(int row, int column) const // 수평으로 맞는거 구하기
 {
-Item\* item = \_items[row][column];
-if(item == nullptr) return {};
+    Item\* item = \_items[row][column];
+    if(item == nullptr) return {};
 
     MatchSet Matched;
     for(int i = column - 1; i >= 0; --i)
@@ -134,11 +134,21 @@ if(item == nullptr) return {};
 ```
 void Board::refreshBoard()
 {
-MatchSet m = matchedItems();
-for(const auto& match : m)
-{
-removeItem(match.first, match.second);
+    MatchSet m = matchedItems();
+    for(const auto& match : m)
+    {
+        removeItem(match.first, match.second);
+    }
+
 }
 
+void Board::removeItem(int row, int column){
+    auto* item = _items[row][column];
+    if(item == nullptr) return;
+    _items[row][column] = nullptr;
+//    item -> setParentItem(nullptr);     // nullptr로 부모님을 뺴주고,(인데 삭제하면 자동으로 부모에서빠지니 굳이인가 싶다)
+    _scene->removeItem(item);           // 아이템 제거후
+
+    delete item;                        // 메모리에서 해제해줌.
 }
 ```
