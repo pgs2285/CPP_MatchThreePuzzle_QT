@@ -40,6 +40,7 @@ EventListener\* \_listener; 에서 생성자에서 초기화 후 사용하려 �
 #### Item 삭제 (3개 이상이 맞춰줬을떄 삭제하기)
 
 ##### 아이템 3개이상을 맞추기 위해 요소하나하나를 넣어주기
+MatchSet = std::set<std::pair<int,int>> 이다
 
 '''
 
@@ -87,7 +88,7 @@ MatchSet verticalMatched = matchedItemVertical(row, column);
 
 ##### 세로로 3개이상 같은것이 있나 검사하는 코드 (이하 matchedItemVertical 은 생략하기)
 
-'''cpp
+'''
 MatchSet Board::matchedItemHorizontal(int row, int column) const // 수평으로 맞는거 구하기
 {
 Item\* item = \_items[row][column];
