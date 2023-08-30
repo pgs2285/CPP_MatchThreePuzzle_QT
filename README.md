@@ -41,7 +41,7 @@ EventListener\* \_listener; 에서 생성자에서 초기화 후 사용하려 �
 
 ##### 아이템 3개이상을 맞추기 위해 요소하나하나를 넣어주기
 
-'''cpp
+'''
 
 MatchSet Board::matchedItems() const
 {
@@ -64,7 +64,7 @@ return matched;
 
 ##### overloading 개념으로 row, column이 넘어왔을때 검사하기 위함.
 
-'''cpp
+'''
 
 MatchSet Board::matchedItems(int row, int column) const
 {
@@ -130,7 +130,7 @@ if(item == nullptr) return {};
 
 ##### 보드 초기화 시키기
 
-'''cpp
+'''
 void Board::refreshBoard()
 {
 MatchSet m = matchedItems();
