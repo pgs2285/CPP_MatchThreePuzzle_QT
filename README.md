@@ -42,7 +42,7 @@ EventListener\* \_listener; 에서 생성자에서 초기화 후 사용하려 �
 ##### 아이템 3개이상을 맞추기 위해 요소하나하나를 넣어주기
 MatchSet = std::set<std::pair<int,int>> 이다
 
-'''
+```
 
 MatchSet Board::matchedItems() const
 {
@@ -61,11 +61,11 @@ matched.insert(m.begin(), m.end());
 return matched;
 }
 
-'''
+```
 
 ##### overloading 개념으로 row, column이 넘어왔을때 검사하기 위함.
 
-'''
+```
 
 MatchSet Board::matchedItems(int row, int column) const
 {
@@ -84,11 +84,11 @@ MatchSet verticalMatched = matchedItemVertical(row, column);
     return matched;
 
 }
-'''
+```
 
 ##### 세로로 3개이상 같은것이 있나 검사하는 코드 (이하 matchedItemVertical 은 생략하기)
 
-'''
+```
 MatchSet Board::matchedItemHorizontal(int row, int column) const // 수평으로 맞는거 구하기
 {
 Item\* item = \_items[row][column];
@@ -127,11 +127,11 @@ if(item == nullptr) return {};
     }
 
 }
-'''
+```
 
 ##### 보드 초기화 시키기
 
-'''
+```
 void Board::refreshBoard()
 {
 MatchSet m = matchedItems();
@@ -141,4 +141,4 @@ removeItem(match.first, match.second);
 }
 
 }
-'''
+```
