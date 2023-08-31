@@ -4,11 +4,11 @@
 #include "QDebug"
 
 Board::Board(QGraphicsScene* scene)
-    : _scene(scene), _gen(_rand())
+    : _scene(scene), _gen(_rand()), _moveCount(0)
 {
     _scene -> addItem(&_root);
 
-    _root.setX(_scene->sceneRect().width() / 2 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) );
+    _root.setX(_scene->sceneRect().width() * 1.5 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) ); // 맥북에서는 싱글모니터니까 /2 , 듀얼모니터환경에선 오른쪽기준 * 1.5
     _root.setY(_scene->sceneRect().height() / 2 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) );
     for(int row = 0; row < Consts::BOARD_SIZE; ++row)
     {
@@ -24,7 +24,7 @@ Board::Board(QGraphicsScene* scene)
     {
         qDebug() << p;
     }
-    while(refreshBoard());
+    refreshBoard();
 }
 
 void Board::addItem(int row, int column) // column에 이미지를 넣어주기 위함.
@@ -197,6 +197,16 @@ void Board::itemDragEvent(Item* item, Item::Direction dir)
         return;
     exchangeItems(row0, row1, column0, column1);
 }
+
+void Board::itemMoveFinished(Item *item)
+{
+    if(--_moveCount>0)
+        return;
+
+
+    refreshBoard();
+
+}
 void Board::exchangeItems(int row0, int row1, int column0, int column1){
     Item* item0 = _items[row0][column0];
     Item* item1 = _items[row1][column1];
@@ -204,7 +214,6 @@ void Board::exchangeItems(int row0, int row1, int column0, int column1){
     moveItem(item1, row0, column0);
     moveItem(item0, row1, column1);
 
-    while(refreshBoard());
 
 }
 
@@ -252,8 +261,10 @@ void Board::moveItem(Item* item, int row, int column)
 {
     item->setColumn(column);
     item->setRow(row);
-    item->setPos(column * Consts::ITEM_SIZE , row * Consts::ITEM_SIZE);     // 실제 화면에 보이는 값을 바꿔준다
+/*    item->setPos();   */  // 실제 화면에 보이는 값을 바꿔준다
+    item->moveTo(column * Consts::ITEM_SIZE , row * Consts::ITEM_SIZE);
     _items[row][column] = item;                                             // 관리하고 있는 2차원 vector값을 바꿔준다.
+    _moveCount++;
 }
 
 void Board::moveItem(int fromRow, int fromColumn, int toRow, int toColumn)

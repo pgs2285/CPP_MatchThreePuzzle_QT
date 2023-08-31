@@ -4,7 +4,7 @@
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <string>
 
-class Item : public QGraphicsPixmapItem
+class Item : public QGraphicsPixmapItem, public QObject
 {
 
 public:
@@ -16,6 +16,7 @@ public:
     class EventListener{            // 이벤트 전달해주는 listener제작.
     public:
         virtual void itemDragEvent(Item* item, Direction dir) = 0;
+        virtual void itemMoveFinished(Item* item) = 0;
     };
 
     Item(EventListener* listener,const std::string& path, int row, int column, QGraphicsRectItem* root);
