@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);         // Application
     QScreen* screen = QGuiApplication::primaryScreen();
+
     QRect geometry = screen->geometry();
     // QGuiApplication의 primaryScreen()으로 주 화면을 얻은 다음, 해당 화면의 geometry() 메서드를 이용하여 기하학적 영역에 대한 정보를 QRect 타입의 변수인 geometry에 저장
     QGraphicsScene scene;               // 여기에 만든 오브젝트들이 담긴다.
