@@ -30,6 +30,7 @@ public:
     // setter
     void setRow(int row);
     void setColumn(int column);
+    void moveTo(double toX, double toY);
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;

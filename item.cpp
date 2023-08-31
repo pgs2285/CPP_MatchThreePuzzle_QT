@@ -2,6 +2,7 @@
 #include "Consts.h"
 #include <QtWidgets/QGraphicsSceneEvent>
 #include <QDebug>
+#include <QtWidgets/QGraphicsItemAnimation>
 
 Item::Item(EventListener* listener,const std::string& path, int row, int column, QGraphicsRectItem* root)
     : QGraphicsPixmapItem(
@@ -33,6 +34,18 @@ int Item::getRow() const
 void Item::setColumn(int column)
 {
     _column = column;
+}
+
+void Item::moveTo(double toX, double toY)
+{
+    double diffX = toX - x();
+    double diffY = toY - y();   // 거리가 먼 만큼 이동해야하므로, diff를 구해주자.
+
+    double time = 0;
+    time+= qAbs(diffX) / Consts::BOARD_SIZE * Consts::AnimationTime; // qAbs(diffX) / boardsize하면 개수가 나올것이고, 거기에 animationtime을 곱한다.
+    time+= qAbs(diffY) / Consts::BOARD_SIZE * Consts::AnimationTime; // 어차피 상,하,좌,우 만 움직이므로 diffX,diffY중 하나는 0일거기때문에 둘다 time에서 관리
+    QTimeLine* timer = new QTimeLine(time);     //시간만큼 애니메이션을 이용한다.
+    QGraphicsItemAnimation* animation = new QGraphicsItemAnimation();
 }
 
 void Item::setRow(int row)

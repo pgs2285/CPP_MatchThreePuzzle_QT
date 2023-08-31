@@ -29,6 +29,7 @@ namespace Consts{
     const int BOARD_SIZE = 10;
     const int img_count = 5;
     const int ITEM_SIZE = 60;
+    const int AnimationTime = 200;
 
 }
 
