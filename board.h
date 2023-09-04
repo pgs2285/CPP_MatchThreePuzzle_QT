@@ -32,7 +32,7 @@ class Board : public Item::EventListener
         void addItem(int row, int column);
         void removeItem(int row, int column);
         virtual void itemDragEvent(Item* item, Item::Direction dir) override;
-        virtual void itemMoveFinished(Item* item);
+        virtual void itemMoveFinished(Item* item) override;
         void exchangeItems(int row0, int row1, int column0, int column1);
         bool refreshBoard();
         void moveItem(Item* item, int row, int column);

@@ -8,7 +8,7 @@ Board::Board(QGraphicsScene* scene)
 {
     _scene -> addItem(&_root);
 
-    _root.setX(_scene->sceneRect().width() * 1.5 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) ); // 맥북에서는 싱글모니터니까 /2 , 듀얼모니터환경에선 오른쪽기준 * 1.5
+    _root.setX(_scene->sceneRect().width() / 2 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) ); // 맥북에서는 싱글모니터니까 /2 , 듀얼모니터환경에선 오른쪽기준 * 1.5
     _root.setY(_scene->sceneRect().height() / 2 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) );
     for(int row = 0; row < Consts::BOARD_SIZE; ++row)
     {
@@ -20,10 +20,6 @@ Board::Board(QGraphicsScene* scene)
         }
     }
 
-    for (const auto& p : matchedItems())
-    {
-        qDebug() << p;
-    }
     refreshBoard();
 }
 
@@ -32,6 +28,7 @@ void Board::addItem(int row, int column) // column에 이미지를 넣어주기 
 
     // device 와 gen은 한번만 뽑는게 (시드) 나을거같으니 생성자로 빼준다.
     std::uniform_int_distribution<int> randomNum(0, Consts::img_count - 1);
+
     const std::string& path = Consts::img_path[randomNum(_gen)];
 
     Item* item = new Item(this, path, row, column, &_root);
@@ -247,11 +244,29 @@ bool Board::refreshBoard()
 
     }
     // 빈칸 채우기
+    std::vector<int> emptyCounts;
+    for(int column = 0; column < _items[0].size(); ++column)
+    {
+        int emptyCount = 0;
+        for(int row = 0; row < _items.size(); ++row)
+        {
+            if(_items[row][column] == nullptr) emptyCount++;
+            else break;
+        }
+        emptyCounts.push_back(emptyCount);
+    }
+
     for(int row = 0; row <_items.size(); ++row)
     {
         for(int column = 0; column <_items[0].size(); ++column)
         {
-            if(_items[row][column] == nullptr) addItem(row,column);
+            if(_items[row][column] == nullptr)
+            {
+                addItem(row, column);
+                Item* item = _items[row][column];
+                item->setY(item->y() - emptyCounts[column] * Consts::ITEM_SIZE);
+                moveItem(row, column, row, column);
+            }
         }
     }
     return true;
