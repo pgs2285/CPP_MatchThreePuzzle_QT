@@ -244,7 +244,7 @@ bool Board::refreshBoard()
 
     }
     // 빈칸 채우기
-    std::vector<int> emptyCounts;
+    std::vector<int> emptyCounts;       //중간부터 내려오는게 아닌 위에것들이 내려오는 애니메이션을 위해 row 별 빈칸 개수 체크
     for(int column = 0; column < _items[0].size(); ++column)
     {
         int emptyCount = 0;
@@ -265,7 +265,7 @@ bool Board::refreshBoard()
                 addItem(row, column);
                 Item* item = _items[row][column];
                 item->setY(item->y() - emptyCounts[column] * Consts::ITEM_SIZE);
-                moveItem(row, column, row, column);
+                moveItem(item, row, column);
             }
         }
     }
