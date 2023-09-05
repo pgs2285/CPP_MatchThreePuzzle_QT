@@ -6,6 +6,7 @@
 //#include <QDesktopWidget>             // qt6 부터 QScreen으로 대체되었다
 #include <QScreen>
 #include <QGraphicsPixmapItem>
+#include <QGraphicsTextItem>
 
 #include <random>
 #include "board.h"
@@ -19,9 +20,11 @@ int main(int argc, char *argv[])
     QRect geometry = screen->geometry();
     // QGuiApplication의 primaryScreen()으로 주 화면을 얻은 다음, 해당 화면의 geometry() 메서드를 이용하여 기하학적 영역에 대한 정보를 QRect 타입의 변수인 geometry에 저장
     QGraphicsScene scene;               // 여기에 만든 오브젝트들이 담긴다.
+    QGraphicsSimpleTextItem text;
+
     scene.setSceneRect(geometry);       // 좌표기준을 primaryScreen으로 변경 없으면 0,0(가운데)가 기준이되버린다.
 
-    Board board(&scene);
+    Board board(&scene, &text);
 
     // 현재 scene안에 rect가 포함되어 있으나 viewing역할은 없다. 이상태면 백그라운드로만 돌아감
     QGraphicsView view(&scene);         //

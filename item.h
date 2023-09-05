@@ -16,13 +16,13 @@ public:
     class EventListener{            // 이벤트 전달해주는 listener제작.
     public:
         virtual void itemDragEvent(Item* item, Direction dir) = 0;
-        virtual void itemMoveFinished(Item* item) = 0;
+        virtual void itemMoveFinished(Item* item, Item* item2) = 0;
     };
 
     Item(EventListener* listener,const std::string& path, int row, int column, QGraphicsRectItem* root);
 
 
-
+    bool isMoving = false;
 
     // getter
     std::string getPath() const;
@@ -32,6 +32,7 @@ public:
     void setRow(int row);
     void setColumn(int column);
     void moveTo(double toX, double toY);
+    void moveTo(Item* other);
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event) override;
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event) override;
@@ -42,9 +43,6 @@ private:
     int _row;
     int _column;
     QPointF _pressPos;
-
-public:
-
 };
 
 #endif // ITEM_H

@@ -3,11 +3,13 @@
 #include "item.h"
 #include "QDebug"
 
-Board::Board(QGraphicsScene* scene)
-    : _scene(scene), _gen(_rand()), _moveCount(0)
+Board::Board(QGraphicsScene* scene, QGraphicsSimpleTextItem* text)
+    : _scene(scene), _gen(_rand()), _moveCount(0), _text(text)
 {
     _scene -> addItem(&_root);
-
+    _scene -> addItem(&_text);
+    _text.setScale(4);
+    _text.setText(("Score : " + std::to_string(_score)).c_str());
     _root.setX(_scene->sceneRect().width() / 2 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) ); // 맥북에서는 싱글모니터니까 /2 , 듀얼모니터환경에선 오른쪽기준 * 1.5
     _root.setY(_scene->sceneRect().height() / 2 - (Consts::BOARD_SIZE / 2 * Consts::ITEM_SIZE) );
     for(int row = 0; row < Consts::BOARD_SIZE; ++row)
@@ -195,21 +197,45 @@ void Board::itemDragEvent(Item* item, Item::Direction dir)
     exchangeItems(row0, row1, column0, column1);
 }
 
-void Board::itemMoveFinished(Item *item)
+void Board::itemMoveFinished(Item *item, Item* item2)
 {
+
+
+
     if(--_moveCount>0)
         return;
 
+    if(refreshBoard()){
+        return;// 매칭되는것이 있다면 리턴
+    }
+    if(item == nullptr || item2 == nullptr) return;
 
-    refreshBoard();
+    if(isExchange)
+    {
+        exchangeItems(item->getRow(), item2->getRow(), item->getColumn(), item2->getColumn());  // 만약 매칭되는게 없다면 다시 원래자리로,
+        item -> isMoving = true;
+        item2 -> isMoving = true;
+        isExchange = false;
+    }
+
 
 }
 void Board::exchangeItems(int row0, int row1, int column0, int column1){
     Item* item0 = _items[row0][column0];
     Item* item1 = _items[row1][column1];
+    item0->setRow(row1);
+    item1->setRow(row0);
+    item0->setColumn(column1);
+    item1->setColumn(column0);
 
-    moveItem(item1, row0, column0);
-    moveItem(item0, row1, column1);
+    _items[row0][column0] = item1;
+    _items[row1][column1] = item0;
+
+    item0->moveTo(item1);
+    item1->moveTo(item0);
+    _moveCount+=2;
+    isExchange = true;
+
 
 
 }
@@ -219,6 +245,11 @@ bool Board::refreshBoard()
     // 위에있는 Item들 아래로 내려주기
     MatchSet m = matchedItems();
     if(m.size() < 3) return false;
+    else
+    {
+        _score += m.size();
+        _text.setText(("Score : " + std::to_string(_score)).c_str());
+    }
     for(const auto& match : m)
     {
         removeItem(match.first, match.second);

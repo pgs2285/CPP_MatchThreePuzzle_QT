@@ -6,6 +6,7 @@
 #include <QtWidgets/QGraphicsPixmapItem>
 #include <QtWidgets/QGraphicsScene>
 #include <QtWidgets/QGraphicsRectItem>      // Item을 묶기위함.
+#include <QGraphicsTextItem>
 #include "random"
 #include "item.h"
 
@@ -18,21 +19,25 @@ class Board : public Item::EventListener
     private:
     QGraphicsScene* _scene;
     QGraphicsRectItem _root;                                  // board 의 item을 한번에 묶어줄 변수
+    QGraphicsSimpleTextItem _text;
     std::vector<std::vector<Item*>> _items;    // 추후에 비어있는 상황을 대비해서 포인터로 받자.
     std::random_device _rand;
     std::mt19937 _gen;
     int _moveCount;
+    bool isExchange = true;
+
+    int _score = 0;
     // random_device를 통해서 랜덤한 시드값을 가져오고 mt19937이라는 알고리즘을 통해서 랜덤숫자 만듬.
     // random_device를 그대로 사용하지 않는 이유는 속도에서 이점을 얻기 위해서.
 
     public:
 
-        Board(QGraphicsScene* scene);
+        Board(QGraphicsScene* scene, QGraphicsSimpleTextItem* text);
         ~Board();
         void addItem(int row, int column);
         void removeItem(int row, int column);
         virtual void itemDragEvent(Item* item, Item::Direction dir) override;
-        virtual void itemMoveFinished(Item* item) override;
+        virtual void itemMoveFinished(Item* item, Item* item2) override;
         void exchangeItems(int row0, int row1, int column0, int column1);
         bool refreshBoard();
         void moveItem(Item* item, int row, int column);
