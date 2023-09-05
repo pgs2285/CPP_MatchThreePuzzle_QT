@@ -11,7 +11,6 @@
 #include <random>
 #include "board.h"
 
-#include <QDir>
 
 int main(int argc, char *argv[])
 {

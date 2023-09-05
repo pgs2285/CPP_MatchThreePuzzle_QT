@@ -199,9 +199,6 @@ void Board::itemDragEvent(Item* item, Item::Direction dir)
 
 void Board::itemMoveFinished(Item *item, Item* item2)
 {
-
-
-
     if(--_moveCount>0)
         return;
 
@@ -217,8 +214,6 @@ void Board::itemMoveFinished(Item *item, Item* item2)
         item2 -> isMoving = true;
         isExchange = false;
     }
-
-
 }
 void Board::exchangeItems(int row0, int row1, int column0, int column1){
     Item* item0 = _items[row0][column0];
@@ -235,9 +230,6 @@ void Board::exchangeItems(int row0, int row1, int column0, int column1){
     item1->moveTo(item0);
     _moveCount+=2;
     isExchange = true;
-
-
-
 }
 
 bool Board::refreshBoard()
