@@ -11,9 +11,12 @@
 #include <random>
 #include "board.h"
 
+#include <QDir>
 
 int main(int argc, char *argv[])
 {
+    QString currentPath = QDir::currentPath();
+    qDebug() << currentPath;
     QApplication a(argc, argv);         // Application
     QScreen* screen = QGuiApplication::primaryScreen();
 

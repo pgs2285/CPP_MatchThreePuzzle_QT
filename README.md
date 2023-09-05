@@ -1,6 +1,7 @@
+![MatchThreepuzzle](match_three_puzzle.gif)
 # Cpp_MatchThreePuzzle_Qt
 
-Cpp- Qt6를 이용한 MatchThreePuzzle 게임 제작해보기
+Cpp- Qt6를 이용한 MatchThreePuzzle 게임 제작해보기 (Consts.h 에 원하는 이미지들의 경로를 넣고 빌드하면 된다)
 
 ## Qt란
 
